@@ -1,0 +1,13 @@
+<h3>Posts of thread <%= @thread_id %></h3>
+<table id="posts">
+  <%- @posts.each do |post| -%>
+  <tr id="<%= post.id %>">
+    <td>
+      <p><%= post.poster_id %></p>
+    </td>
+    <td style="width: 100%">
+      <p><%= post.text %><p>
+    </td>
+  </tr>
+  <%- end -%>
+</table>

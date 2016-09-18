@@ -135,6 +135,10 @@ INSERT INTO `forums` (`id`, `name`, `title`, `minpower`, `minpowerreply`, `minpo
 INSERT INTO `threads` (`id`, `name`, `title`, `time`, `forum`, `user`) VALUES
 (1, 'Test Thread 1', 'Sub title thing', 0, 1, 1),
 (2, 'Test Thread 2', 'another sub title', 0, 1, 1);
+
+INSERT INTO `posts` (`text`, `time`, `thread`, `user`, `rev`) VALUES
+("Woah, this is pretty cool.", 123, 1, 1, 1)
+("Yeah, this is neato!", 124, 1, 1, 1)
 ```
 
 ## Uninstalling

@@ -1,6 +1,6 @@
 require "process"
 
-def generate_styleheet(s : String)
+def generate_stylesheet(s : String)
   Process.run("sass", ["style/#{s}.sass", "style/#{s}.css"])
-  puts "Generated Stylsheet '#{s}' from Sass sources."
+  puts "Generated Stylesheet '#{s}' from Sass sources."
 end

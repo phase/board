@@ -21,3 +21,10 @@ class ForumTemplate
 
   ECR.def_to_s "templates/forum.ecr"
 end
+
+class ThreadTemplate
+  def initialize(@thread_id : Int32, @posts : Array(ForumPost))
+  end
+
+  ECR.def_to_s "templates/thread.ecr"
+end

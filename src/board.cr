@@ -29,8 +29,19 @@ class ForumThread
   end
 end
 
+class ForumPost
+  getter id : Int32
+  getter text : String
+  getter time : Int32
+  getter thread_id : Int32
+  getter poster_id : Int32
+
+  def initialize(@id : Int32, @text : String, @time : Int32,
+                 @thread_id : Int32, @poster_id : Int32)
+  end
+end
+
 def get_forums(sql_url : String)
-  # forums to render
   forums = [] of Forum
   DB.open sql_url do |db|
     db.query "select id, name, title, threads, posts from forums" do |rs|
@@ -50,7 +61,6 @@ def get_forums(sql_url : String)
 end
 
 def get_threads(sql_url : String, forum_id : Int32)
-  # threads to render
   threads = [] of ForumThread
   DB.open sql_url do |db|
     db.query "select id, name, title, user, replies, views from threads where forum = #{forum_id}" do |rs|
@@ -66,4 +76,20 @@ def get_threads(sql_url : String, forum_id : Int32)
     end
   end
   threads
+end
+
+def get_posts(sql_url : String, thread_id : Int32)
+  posts = [] of ForumPost
+  DB.open sql_url do |db|
+    db.query "select id, text, time, user from posts where thread = #{thread_id}" do |rs|
+      rs.each do
+        post_id = rs.read(Int32)
+        text = String.new(rs.read(Slice(UInt8)))
+        time = rs.read(Int32)
+        poster_id = rs.read(Int32)
+        posts << ForumPost.new(post_id, text, time, thread_id, poster_id)
+      end
+    end
+  end
+  posts
 end
