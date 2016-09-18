@@ -1,0 +1,14 @@
+name: board
+version: 0.0.0
+
+authors:
+  - Jadon Fowler <jadonflower@gmail.com>
+
+license: MIT
+
+dependencies:
+  kemal:
+    github: sdogruyol/kemal
+    branch: master
+  mysql:
+    github: crystal-lang/crystal-mysql

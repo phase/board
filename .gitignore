@@ -1,0 +1,8 @@
+/doc/
+/libs/
+/.crystal/
+/.shards/
+/.sass-cache/
+*.css
+*.css.map
+config.txt

@@ -1,0 +1,22 @@
+version: 1.0
+shards:
+  db:
+    github: crystal-lang/crystal-db
+    version: 0.1.0
+
+  kemal:
+    github: sdogruyol/kemal
+    commit: 94217a15647b83fe7b7e31db6d05fa121b2a5d86
+
+  kilt:
+    github: jeromegn/kilt
+    version: 0.3.3
+
+  mysql:
+    github: crystal-lang/crystal-mysql
+    version: 0.1.2
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.1
+

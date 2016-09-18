@@ -1,0 +1,23 @@
+<h3>Forums</h3>
+<table id="forums">
+  <tr>
+    <th>Forum</th>
+    <th>Threads</th>
+    <th>Posts</th>
+  </tr>
+  <%- @forums.each do |forum| -%>
+  <tr>
+    <td>
+      <a href="/forum/<%= forum.id %>"><%= forum.name %></a>
+      <br>
+      <small><%= forum.title %></small>
+    </td>
+    <td class="center">
+      <p><%= forum.thread_count %></p>
+    </td>
+    <td class="center">
+      <p><%= forum.post_count %><p>
+    </td>
+  </tr>
+  <%- end -%>
+</table>

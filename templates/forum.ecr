@@ -1,0 +1,27 @@
+<h3>Threads of forum <%= @forum_id %></h3>
+<table id="threads">
+  <tr>
+    <th>Thread</th>
+    <th>Started By</th>
+    <th>Replies</th>
+    <th>Views</th>
+  </tr>
+  <%- @threads.each do |thread| -%>
+  <tr>
+    <td>
+      <a href="/thread/<%= thread.id %>"><%= thread.name %></a>
+      <br>
+      <small><%= thread.title %></small>
+    </td>
+    <td class="center">
+      <p><%= thread.user_id %></p>
+    </td>
+    <td class="center">
+      <p><%= thread.replies %></p>
+    </td>
+    <td class="center">
+      <p><%= thread.views %><p>
+    </td>
+  </tr>
+  <%- end -%>
+</table>
