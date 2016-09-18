@@ -164,4 +164,50 @@ class Board
     user
   end
 
+  def self.create_forum(name : String, title : String)
+    forum = Forum.new(-1, "Invalid Forum", "Invalid Forum Title", -1, -1)
+    DB.open @@config.mysql_url do |db|
+      db.exec "insert into forums (name, title) values (?, ?)", name, title
+      # SELECT * FROM Table ORDER BY ID DESC LIMIT 1
+      db.query "select id from forums order by id desc limit 1" do |rs|
+        rs.each do
+          id = rs.read(Int32)
+          forum = Forum.new(id, name, title, 0, 0)
+        end
+      end
+    end
+    forum
+  end
+
+  def self.create_thread(name : String, title : String, forum_id : Int32, user_id : Int32)
+    thread = ForumThread.new(-1, "Invalid Thread Name", "Invalid Thread Title", -1, -1, -1, -1)
+    DB.open @@config.mysql_url do |db|
+      db.exec "insert into threads (name, title, time, forum, user) values (?, ?, ?, ?, ?)",
+        name, title, Time.now.epoch.to_i32, forum_id, user_id
+      db.query "select id from threads order by id desc limit 1" do |rs|
+        rs.each do
+          id = rs.read(Int32)
+          thread = ForumThread.new(id, name, title, forum_id, user_id, 0, 0)
+        end
+      end
+    end
+    thread
+  end
+
+  def self.create_post(text : String, thread_id : Int32, user_id : Int32)
+    post = ForumPost.new(-1, "Invalid Post", -1, -1, -1)
+    DB.open @@config.mysql_url do |db|
+      time = Time.now.epoch.to_i32
+      db.exec "insert into posts (text, time, thread, user, rev) values (?, ?, ?, ?, ?)",
+        text, time, thread_id, user_id, 0
+      db.query "select id from posts order by id desc limit 1" do |rs|
+        rs.each do
+          id = rs.read(Int32)
+          post = ForumPost.new(id, text, time, thread_id, user_id)
+        end
+      end
+    end
+    post
+  end
+
 end

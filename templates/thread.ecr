@@ -14,3 +14,14 @@
   </tr>
   <%- end -%>
 </table>
+
+<!-- TODO: (re)move this -->
+<form action="/new/post" id="new-post" method="post">
+  UserID:
+  <input type="number" name="user" value="1">
+  Thread:
+  <input type="number" name="thread" value="<%= @thread_id %>">
+  <input type="submit" value="Submit">
+</form>
+<br>
+<textarea name="text" form="new-post">Enter text here...</textarea>
