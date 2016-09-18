@@ -7,6 +7,8 @@ There is no name for it yet. `CryBoard` or `BoardCr` may be used.
 
 ## Installing
 
+Create a `config.json` modeled after `example_config.json`.
+
 ### MySQL
 
 Open your MySQL shell.
@@ -79,7 +81,7 @@ CREATE TABLE `posts` (
   `time` int(32) NOT NULL,
   `thread` int(32) NOT NULL,
   `user` int(32) NOT NULL,
-  `rev` int(4) NOT NULL,
+  `rev` int(4) NOT NULL DEFAULT '0',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `nohtml` tinyint(1) NOT NULL DEFAULT '0',
   `nosmilies` tinyint(1) NOT NULL DEFAULT '0',

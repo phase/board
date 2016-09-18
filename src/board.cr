@@ -82,6 +82,22 @@ class Board
     forums
   end
 
+  def self.get_forum(forum_id : Int32)
+    forum = Forum.new(-1, "Invalid Forum", "Invalid Forum Title", -1, -1)
+    DB.open @@config.mysql_url do |db|
+      db.query "select name, title, threads, posts from forums where id = #{forum_id}" do |rs|
+        rs.each do
+          name = rs.read(String)
+          title = rs.read(String)
+          thread_count = rs.read(Int32)
+          post_count = rs.read(Int32)
+          forum = Forum.new(forum_id, name, title, thread_count, post_count)
+        end
+      end
+    end
+    forum
+  end
+
   def self.get_threads(forum_id : Int32)
     threads = [] of ForumThread
     DB.open @@config.mysql_url do |db|

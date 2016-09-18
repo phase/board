@@ -1,4 +1,4 @@
-<h3>Threads of forum <%= @forum_id %></h3>
+<h3>Threads of forum <%= Board.get_forum(@forum_id).name %></h3>
 <table id="threads">
   <tr>
     <th>Thread</th>
@@ -14,7 +14,7 @@
       <small><%= thread.title %></small>
     </td>
     <td class="center">
-      <p><%= thread.user_id %></p>
+      <p><%= Board.get_user(thread.user_id).name %></p>
     </td>
     <td class="center">
       <p><%= thread.replies %></p>
