@@ -1,3 +1,5 @@
+<% thread = Board.get_thread(@thread_id)%>
+<small><a href="/forum/<%= thread.forum_id %>">&larr; <%= Board.get_forum(thread.forum_id).name %></a></small>
 <h3><%= Board.get_thread(@thread_id).name %></h3>
 <h4><%= Board.get_thread(@thread_id).title %></h4>
 <table id="posts">

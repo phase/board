@@ -1,4 +1,6 @@
-<h3>Threads of forum <%= Board.get_forum(@forum_id).name %></h3>
+<small><a href="/">&larr; Home</a></small>
+<h3><%= Board.get_forum(@forum_id).name %></h3>
+<h4><%= Board.get_forum(@forum_id).title %></h4>
 <table id="threads">
   <tr>
     <th>Thread</th>
