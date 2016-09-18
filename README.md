@@ -9,7 +9,7 @@ There is no name for it yet. `CryBoard` or `BoardCr` may be used.
 
 ### MySQL
 
-Open your MysqL shell.
+Open your MySQL shell.
 
 ```bash
 $ mysql -u root -p
@@ -17,7 +17,7 @@ $ mysql -u root -p
 
 Create the database and tables.
 
-```mysql
+```sql
 -- Create the database and select it
 create database cryboard;
 use cryboard;
@@ -139,7 +139,7 @@ INSERT INTO `threads` (`id`, `name`, `title`, `time`, `forum`, `user`) VALUES
 
 ## Uninstalling
 
-```mysql
+```sql
 -- Delete a specific table
 drop table users;
 
