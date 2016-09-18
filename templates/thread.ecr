@@ -1,9 +1,10 @@
-<h3>Posts of thread <%= @thread_id %></h3>
+<h3><%= Board.get_thread(@thread_id).name %></h3>
+<h4><%= Board.get_thread(@thread_id).title %></h4>
 <table id="posts">
   <%- @posts.each do |post| -%>
   <tr id="<%= post.id %>">
-    <td>
-      <p><%= post.poster_id %></p>
+    <td class="user">
+      <p><%= Board.get_user(post.poster_id).name %></p>
     </td>
     <td style="width: 100%">
       <p><%= post.text %><p>

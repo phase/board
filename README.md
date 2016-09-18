@@ -127,6 +127,7 @@ CREATE TABLE `forums` (
   `pollstyle` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Test data
 INSERT INTO `forums` (`id`, `name`, `title`, `minpower`, `minpowerreply`, `minpowerthread`, `category`, `ord`) VALUES
 (1, 'General Forum', 'For everybody!', 0, 0, 0, 1, 1),
 (2, 'General Staff Forum', 'Not for everybody.', 2, 2, 2, 2, 2),
@@ -137,8 +138,13 @@ INSERT INTO `threads` (`id`, `name`, `title`, `time`, `forum`, `user`) VALUES
 (2, 'Test Thread 2', 'another sub title', 0, 1, 1);
 
 INSERT INTO `posts` (`text`, `time`, `thread`, `user`, `rev`) VALUES
-("Woah, this is pretty cool.", 123, 1, 1, 1)
-("Yeah, this is neato!", 124, 1, 1, 1)
+("Woah, this is pretty cool.", 123, 1, 1, 1),
+("Yeah, this is neato!", 124, 1, 1, 1),
+("Get your shit board out of here.", 125, 1, 2, 1);
+
+INSERT INTO `users` (`name`, `password`) VALUES
+("phase", "some_hash"),
+("StapleButter", "some_weak_hash");
 ```
 
 ## Uninstalling

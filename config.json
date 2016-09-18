@@ -1,0 +1,4 @@
+{
+  "name": "board",
+  "mysql_url": "mysql://user:password@host/database"
+}
