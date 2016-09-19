@@ -1,7 +1,7 @@
 <% thread = Board.get_thread(@thread_id)%>
 <small><a href="/forum/<%= thread.forum_id %>">&larr; <%= Board.get_forum(thread.forum_id).name %></a></small>
-<h3><%= Board.get_thread(@thread_id).name %></h3>
-<h4><%= Board.get_thread(@thread_id).title %></h4>
+<h3><%= thread.name %></h3>
+<h4><%= thread.title %></h4>
 <table id="posts">
   <%- @posts.each do |post| -%>
   <tr id="<%= post.id %>">
@@ -25,7 +25,7 @@
   <!-- Hidden input for thread id -->
   <input type="number" style="display: none;" name="thread" value="<%= @thread_id %>">
 
-  <textarea name="text" form="new-post">Enter text here...</textarea>
+  <textarea name="text" form="new-post">Reply #<%=thread.replies + 1 %></textarea>
   <input type="submit" value="Submit">
 </form>
 <br>

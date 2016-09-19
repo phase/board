@@ -197,6 +197,7 @@ class Board
   def self.create_post(text : String, thread_id : Int32, user_id : Int32)
     post = ForumPost.new(-1, "Invalid Post", -1, -1, -1)
     DB.open @@config.mysql_url do |db|
+      # Add post to table
       time = Time.now.epoch.to_i32
       db.exec "insert into posts (text, time, thread, user, rev) values (?, ?, ?, ?, ?)",
         text, time, thread_id, user_id, 0
@@ -206,6 +207,14 @@ class Board
           post = ForumPost.new(id, text, time, thread_id, user_id)
         end
       end
+      # Update reply count in thread
+      replies = 0
+      db.query "select replies from threads where id = #{thread_id}" do |rs|
+        rs.each do
+          replies = rs.read(Int32)
+        end
+      end
+      db.exec "update threads set replies = #{replies + 1} where id = #{thread_id}"
     end
     post
   end
