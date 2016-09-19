@@ -16,12 +16,16 @@
 </table>
 
 <!-- TODO: (re)move this -->
+<br>
 <form action="/new/post" id="new-post" method="post">
   UserID:
   <input type="number" name="user" value="1">
-  Thread:
-  <input type="number" name="thread" value="<%= @thread_id %>">
+  <br>
+
+  <!-- Hidden input for thread id -->
+  <input type="number" style="display: none;" name="thread" value="<%= @thread_id %>">
+
+  <textarea name="text" form="new-post">Enter text here...</textarea>
   <input type="submit" value="Submit">
 </form>
 <br>
-<textarea name="text" form="new-post">Enter text here...</textarea>

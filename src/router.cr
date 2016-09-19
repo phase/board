@@ -46,14 +46,12 @@ end
 
 post "/new/post" do |env|
   # Get parameters for post
-  puts env.params.query.to_s
-  text = env.params.query["text"]
-  thread_id = env.params.query["thread"].to_i32
-  user_id = env.params.query["user"].to_i32
-  puts "#{text}, #{thread_id}, #{user_id}"
+  text = env.params.body["text"]
+  thread_id = env.params.body["thread"].to_i32
+  user_id = env.params.body["user"].to_i32
   # Create post and redirect to the thread its on
-  post_id = Board.create_post(text, thread_id, user_id)
-  env.redirect "/thread/#{thread_id}#post_id"
+  post_id = Board.create_post(text, thread_id, user_id).id
+  env.redirect "/thread/#{thread_id}##{post_id}"
 end
 
 # http://kemalcr.com/docs/middlewares/#csrf
