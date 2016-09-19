@@ -182,6 +182,7 @@ class Board
   def self.create_thread(name : String, title : String, forum_id : Int32, user_id : Int32)
     thread = ForumThread.new(-1, "Invalid Thread Name", "Invalid Thread Title", -1, -1, -1, -1)
     DB.open @@config.mysql_url do |db|
+      # Add thread to table
       db.exec "insert into threads (name, title, time, forum, user) values (?, ?, ?, ?, ?)",
         name, title, Time.now.epoch.to_i32, forum_id, user_id
       db.query "select id from threads order by id desc limit 1" do |rs|
@@ -190,6 +191,15 @@ class Board
           thread = ForumThread.new(id, name, title, forum_id, user_id, 0, 0)
         end
       end
+
+      # Update thread count in forum
+      thread_count = 0
+      db.query "select threads from forums where id = #{forum_id}" do |rs|
+        rs.each do
+          thread_count = rs.read(Int32)
+        end
+      end
+      db.exec "update forums set threads = #{thread_count + 1} where id = #{forum_id}"
     end
     thread
   end
@@ -207,14 +217,26 @@ class Board
           post = ForumPost.new(id, text, time, thread_id, user_id)
         end
       end
+
       # Update reply count in thread
       replies = 0
-      db.query "select replies from threads where id = #{thread_id}" do |rs|
+      forum_id = -1
+      db.query "select replies, forum from threads where id = #{thread_id}" do |rs|
         rs.each do
           replies = rs.read(Int32)
+          forum_id = rs.read(Int32)
         end
       end
       db.exec "update threads set replies = #{replies + 1} where id = #{thread_id}"
+
+      # Update post count in forum
+      posts = 0
+      db.query "select posts from forums where id = #{forum_id}" do |rs|
+        rs.each do
+          posts = rs.read(Int32)
+        end
+      end
+      db.exec "update forums set posts = #{posts + 1} where id = #{forum_id}"
     end
     post
   end

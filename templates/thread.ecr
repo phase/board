@@ -1,4 +1,4 @@
-<% thread = Board.get_thread(@thread_id)%>
+<% thread = Board.get_thread(@thread_id) -%>
 <small><a href="/forum/<%= thread.forum_id %>">&larr; <%= Board.get_forum(thread.forum_id).name %></a></small>
 <h3><%= thread.name %></h3>
 <h4><%= thread.title %></h4>
@@ -28,4 +28,3 @@
   <textarea name="text" form="new-post">Reply #<%=thread.replies + 1 %></textarea>
   <input type="submit" value="Submit">
 </form>
-<br>

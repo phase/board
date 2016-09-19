@@ -28,3 +28,10 @@ class ThreadTemplate
 
   ECR.def_to_s "templates/thread.ecr"
 end
+
+class NewThreadTemplate
+  def initialize(@forum : Forum)
+  end
+
+  ECR.def_to_s "templates/new_thread.ecr"
+end

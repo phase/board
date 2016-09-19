@@ -1,0 +1,20 @@
+<small><a href="/forum/<%= @forum.id %>">&larr; Back</a></small>
+<h3><%= @forum.name %></h3>
+<h4><%= @forum.title %></h4>
+<br>
+<h4>New Thread</h4>
+<form action="/new/thread" id="new-thread" method="post">
+  UserID:
+  <input type="number" name="user" value="1"><br>
+
+  Thread Title:
+  <input type="text" name="name" value="Thread #<%= @forum.thread_count + 1 %>"><br>
+  Thread Subtitle:
+  <input type="text" name="title" value="Title of Thread #<%= @forum.thread_count + 1 %>"><br>
+
+  <!-- Hidden input for thread id -->
+  <input type="number" style="display: none;" name="forum" value="<%= @forum.id %>">
+
+  <textarea name="text" form="new-thread">New Thread in <%= @forum.name %>.</textarea>
+  <input type="submit" value="Submit">
+</form>

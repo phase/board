@@ -29,17 +29,23 @@ get "/thread/:id" do |env|
   BoardTemplate.new(stylesheet, ThreadTemplate.new(thread_id, posts).to_s).to_s
 end
 
+get "/new/thread/:forum_id" do |env|
+  forum_id = env.params.url["forum_id"].to_i
+  forum = Board.get_forum(forum_id)
+  BoardTemplate.new(stylesheet, NewThreadTemplate.new(forum).to_s).to_s
+end
+
 post "/new/thread" do |env|
   # Get parameters for thread
-  name = env.params.json["name"].as(String)
-  title = env.params.json["title"].as(String)
-  forum_id = env.params.json["forum"].as(Int64).to_i32
-  user_id = env.params.json["user"].as(Int64).to_i32
+  name = env.params.body["name"]
+  title = env.params.body["title"]
+  forum_id = env.params.body["forum"].to_i32
+  user_id = env.params.body["user"].to_i32
   # Create the thread and get the id of it for redirection
   thread_id = Board.create_thread(name, title, forum_id, user_id).id
 
   # Get parameter for first post
-  post_text = env.params.json["text"].as(String)
+  post_text = env.params.body["text"].as(String)
   Board.create_post(post_text, thread_id, user_id)
   env.redirect "/thread/#{thread_id}"
 end
