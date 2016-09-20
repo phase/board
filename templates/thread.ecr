@@ -2,7 +2,7 @@
 <small><a href="/forum/<%= thread.forum_id %>">&larr; <%= Board.get_forum(thread.forum_id).name %></a></small>
 <h3><%= thread.name %></h3>
 <h4><%= thread.title %></h4>
-<table id="posts">
+<table id="posts" class="content">
   <%- @posts.each do |post| -%>
   <tr id="<%= post.id %>">
     <td class="user">

@@ -1,8 +1,11 @@
 <% forum = Board.get_forum(@forum_id) -%>
-<small><a href="/">&larr; Home</a></small>
+<table>
+  <td><small><a href="/">&larr; Home</a></small></td>
+  <td align="right"><a href="/new/thread/<%= @forum_id %>">New Thread</a><td>
+</table>
 <h3><%= forum.name %></h3>
 <h4><%= forum.title %></h4>
-<table id="threads">
+<table id="threads" class="content">
   <tr>
     <th>Thread</th>
     <th>Started By</th>
