@@ -1,4 +1,5 @@
 $dark_white: #c3c3c3
+$table_background: #0f071d
 
 $mobile: "only screen and (min-device-width: 0px) and (max-device-width: 720px)"
 
@@ -21,13 +22,13 @@ table
 table.content, table.content th, table.content td
   border: 1px solid $dark_white
   /* background-color: #190914; */
-  background-color: #0f071d
+  background-color: $table_background
   color: $dark_white
 
 table.content th
   border: 1px solid $dark_white
   /* background-color: #190914; */
-  background-color: #0f071d
+  background-color: $table_background
   color: $dark_white
 
 table.content td
@@ -41,4 +42,8 @@ a
   color: white
 
 h1
+  text-align: center
+
+div.reply
+  background-color: $table_background
   text-align: center

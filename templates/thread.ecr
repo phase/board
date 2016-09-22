@@ -18,13 +18,16 @@
 <!-- TODO: (re)move this -->
 <br>
 <form action="/new/post" id="new-post" method="post">
-  UserID:
-  <input type="number" name="user" value="1">
-  <br>
+  <div class="reply">
+    UserID:
+    <input type="number" name="user" value="1">
+    <br><br>
 
-  <!-- Hidden input for thread id -->
-  <input type="number" style="display: none;" name="thread" value="<%= @thread_id %>">
+    <!-- Hidden input for thread id -->
+    <input type="number" style="display: none;" name="thread" value="<%= @thread_id %>">
 
-  <textarea name="text" form="new-post">Reply #<%=thread.replies + 1 %></textarea>
-  <input type="submit" value="Submit">
+    <textarea name="text" form="new-post">Reply #<%=thread.replies + 1 %></textarea>
+    <br>
+    <input type="submit" value="Submit">
+  </div>
 </form>
