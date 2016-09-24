@@ -62,6 +62,14 @@ get "/register" do |env|
   BoardTemplate.new(stylesheet, RegisterTemplate.new().to_s, user).to_s
 end
 
+get "/profile/:id" do |env|
+  user = User.new(-1, "Invalid User", "Invalid Password")
+  Board.get_user_from_session
+  profile_id = env.params.url["id"].to_i
+  profile = Board.get_user(profile_id)
+  BoardTemplate.new(stylesheet, ProfileTemplate.new(profile).to_s, user).to_s
+end
+
 post "/new/thread" do |env|
   # Get parameters for thread
   name = env.params.body["name"]

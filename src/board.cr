@@ -47,8 +47,14 @@ class User
   getter id : Int32
   getter name : String
   getter password : String # hash of password
+  getter post_count : Int32
 
   def initialize(@id : Int32, @name : String, @password : String)
+    @post_count = 0
+  end
+
+  def initialize(@id : Int32, @name : String, @password : String,
+                 @post_count : Int32)
   end
 
   def logged_in?()
@@ -162,11 +168,12 @@ class Board
   def self.get_user(user_id : Int32)
     user = User.new(-1, "Invalid User", "Invalid Hash")
     DB.open @@config.mysql_url do |db|
-      db.query "select name, password from users where id = #{user_id}" do |rs|
+      db.query "select name, password, posts from users where id = #{user_id}" do |rs|
         rs.each do
           name = rs.read(String)
           password = rs.read(String)
-          user = User.new(user_id, name, password)
+          posts = rs.read(Int32)
+          user = User.new(user_id, name, password, posts)
         end
       end
     end
@@ -190,7 +197,7 @@ class Board
 
   def self.increment_view(thread_id : Int32)
     DB.open @@config.mysql_url do |db|
-      views = -1
+      views = 0
       db.query "select views from threads where id = #{thread_id}" do |rs|
         rs.each do
           views = rs.read(Int32)
@@ -259,13 +266,21 @@ class Board
       db.exec "update threads set replies = #{replies + 1} where id = #{thread_id}"
 
       # Update post count in forum
-      posts = 0
+      forum_posts = 0
       db.query "select posts from forums where id = #{forum_id}" do |rs|
         rs.each do
-          posts = rs.read(Int32)
+          forum_posts = rs.read(Int32)
         end
       end
-      db.exec "update forums set posts = #{posts + 1} where id = #{forum_id}"
+      db.exec "update forums set posts = #{forum_posts + 1} where id = #{forum_id}"
+
+      user_posts = 0
+      db.query "select posts from users where id = #{user_id}" do |rs|
+        rs.each do
+          user_posts = rs.read(Int32)
+        end
+      end
+      db.exec "update users set posts = #{user_posts + 1} where id = #{user_id}"
     end
     post
   end

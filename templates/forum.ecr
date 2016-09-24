@@ -24,7 +24,8 @@
       <small><%= thread.title %></small>
     </td>
     <td class="center">
-      <p><%= Board.get_user(thread.user_id).name %></p>
+      <%- user = Board.get_user(thread.user_id) -%>
+      <p><a href="/profile/<%= user.id %>"><%= user.name %></a></p>
     </td>
     <td class="center">
       <p><%= thread.replies %></p>

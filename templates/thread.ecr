@@ -4,14 +4,18 @@
 <h4><%= thread.title %></h4>
 <table id="posts" class="content">
   <%- @posts.each do |post| -%>
-  <tr id="<%= post.id %>">
-    <td class="user">
-      <p><%= Board.get_user(post.poster_id).name %></p>
-    </td>
-    <td style="width: 100%">
-      <p><%= post.text %><p>
-    </td>
-  </tr>
+    <tr id="<%= post.id %>">
+      <td class="user">
+        <%- user = Board.get_user(post.poster_id) -%>
+        <p><a href="/profile/<%= user.id %>"><%= user.name %></a></p>
+        <small class="stats">
+          <p>Posts: <%= user.post_count %></p>
+        </small>
+      </td>
+      <td style="width: 100%">
+        <p><%= post.text %><p>
+      </td>
+    </tr>
   <%- end -%>
 </table>
 

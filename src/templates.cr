@@ -43,3 +43,10 @@ end
 class RegisterTemplate
   ECR.def_to_s "templates/register.ecr"
 end
+
+class ProfileTemplate
+  def initialize(@user : User)
+  end
+
+  ECR.def_to_s "templates/profile.ecr"
+end
