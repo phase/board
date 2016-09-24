@@ -188,6 +188,18 @@ class Board
     forum
   end
 
+  def self.increment_view(thread_id : Int32)
+    DB.open @@config.mysql_url do |db|
+      views = -1
+      db.query "select views from threads where id = #{thread_id}" do |rs|
+        rs.each do
+          views = rs.read(Int32)
+        end
+      end
+      db.exec "update threads set views = #{views + 1} where id = #{thread_id}"
+    end
+  end
+
   def self.create_thread(name : String, title : String, forum_id : Int32, user_id : Int32)
     thread = ForumThread.new(-1, "Invalid Thread Name", "Invalid Thread Title", -1, -1, -1, -1)
     if user_id == -1

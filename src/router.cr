@@ -32,6 +32,7 @@ get "/thread/:id" do |env|
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   thread_id = env.params.url["id"].to_i
+  Board.increment_view(thread_id)
   posts = Board.get_posts(thread_id)
   BoardTemplate.new(stylesheet, ThreadTemplate.new(user, thread_id, posts).to_s, user).to_s
 end
