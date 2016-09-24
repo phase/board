@@ -6,7 +6,16 @@
   </head>
   <body>
     <h1><a href="/">Board</a></h1>
-    <p>This is some board software written in Crystal.</p>
+    <table>
+      <tr>
+        <td><p>This is some board software written in Crystal.</p></td>
+        <%- if @user.logged_in? -%>
+          <td align="right">Logged in: <%= @user.name %></td>
+        <%- else -%>
+          <td align="right"><a href="/login">Login</a> | <a href="/register">Register</a></td>
+        <%- end -%>
+      </tr>
+    </table>
     <hr>
     <%-= @content -%>
   </body>

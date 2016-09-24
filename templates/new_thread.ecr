@@ -4,9 +4,6 @@
 <br>
 <h4>New Thread</h4>
 <form action="/new/thread" id="new-thread" method="post">
-  UserID:
-  <input type="number" name="user" value="1"><br>
-
   Thread Title:
   <input type="text" name="name" value="Thread #<%= @forum.thread_count + 1 %>"><br>
   Thread Subtitle:

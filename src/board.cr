@@ -49,10 +49,15 @@ class User
 
   def initialize(@id : Int32, @name : String, @password : String)
   end
+
+  def logged_in?()
+    id != -1
+  end
 end
 
 class Board
   @@config = Config.from_json(%({"name":"default_name", "mysql_url": "default_url"}))
+  @@sessions = {} of String => Int32 # Session keys to User IDs
 
   def self.config
     @@config
@@ -62,6 +67,9 @@ class Board
     @@config = c
   end
 
+  def self.sessions
+    @@sessions
+  end
 
   def self.get_forums()
     forums = [] of Forum
@@ -181,6 +189,10 @@ class Board
 
   def self.create_thread(name : String, title : String, forum_id : Int32, user_id : Int32)
     thread = ForumThread.new(-1, "Invalid Thread Name", "Invalid Thread Title", -1, -1, -1, -1)
+    if user_id == -1
+      return thread
+    end
+
     DB.open @@config.mysql_url do |db|
       # Add thread to table
       db.exec "insert into threads (name, title, time, forum, user) values (?, ?, ?, ?, ?)",
@@ -206,6 +218,10 @@ class Board
 
   def self.create_post(text : String, thread_id : Int32, user_id : Int32)
     post = ForumPost.new(-1, "Invalid Post", -1, -1, -1)
+    if user_id == -1
+      return post
+    end
+
     DB.open @@config.mysql_url do |db|
       # Add post to table
       time = Time.now.epoch.to_i32
@@ -239,6 +255,62 @@ class Board
       db.exec "update forums set posts = #{posts + 1} where id = #{forum_id}"
     end
     post
+  end
+
+  def self.create_user(username : String, hash : String)
+    user = User.new(-1, "Invalid User", "Invalid Hash")
+    DB.open @@config.mysql_url do |db|
+      db.exec "insert into users (name, password) values (?, ?)", username, hash
+      db.query "select id from users order by id desc limit 1" do |rs|
+        rs.each do
+          id = rs.read(Int32)
+          user = User.new(id, username, hash)
+        end
+      end
+    end
+    user
+  end
+
+  def self.login(username : String, hash : String)
+    id = -1
+    DB.open @@config.mysql_url do |db|
+      db.query "select id from users where name = ? and password = ?", username, hash do |rs|
+        rs.each do
+          id = rs.read(Int32)
+          puts "Found user #{id}"
+        end
+      end
+    end
+
+    if id < 0
+      # TODO: Error recovery
+      return {"-1", User.new(-1, username, hash)}
+    end
+
+    # TODO: Store Random because object creation is bad
+    s = Random.new.next_u32.to_s
+    @@sessions[s] = id
+    puts "storing #{s} in @@sessions as #{id}"
+    return {s, User.new(id, username, hash)}
+  end
+
+  macro get_user_from_session()
+    if env.session["board_id"]?
+      session_id = env.session["board_id"]
+      if Board.sessions[session_id]?
+        user_id = Board.sessions[session_id]
+        user = Board.get_user(user_id)
+      end
+    end
+  end
+
+  macro get_user_id_from_session()
+    if env.session["board_id"]?
+      session_id = env.session["board_id"]
+      if Board.sessions[session_id]?
+        user_id = Board.sessions[session_id]
+      end
+    end
   end
 
 end

@@ -16,13 +16,10 @@
 </table>
 
 <!-- TODO: (re)move this -->
+<%- if @user.logged_in? -%>
 <br>
 <form action="/new/post" id="new-post" method="post">
   <div class="reply">
-    UserID:
-    <input type="number" name="user" value="1">
-    <br><br>
-
     <!-- Hidden input for thread id -->
     <input type="number" style="display: none;" name="thread" value="<%= @thread_id %>">
 
@@ -31,3 +28,4 @@
     <input type="submit" value="Submit">
   </div>
 </form>
+<%- end -%>

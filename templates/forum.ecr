@@ -1,7 +1,11 @@
 <% forum = Board.get_forum(@forum_id) -%>
 <table>
-  <td><small><a href="/">&larr; Home</a></small></td>
-  <td align="right"><a href="/new/thread/<%= @forum_id %>">New Thread</a><td>
+  <tr>
+    <td><small><a href="/">&larr; Home</a></small></td>
+    <%- if @user.logged_in? -%>
+      <td align="right"><a href="/new/thread/<%= @forum_id %>">New Thread</a><td>
+    <%- end -%>
+  </tr>
 </table>
 <h3><%= forum.name %></h3>
 <h4><%= forum.title %></h4>
@@ -15,7 +19,7 @@
   <%- @threads.each do |thread| -%>
   <tr>
     <td>
-      <a href="/thread/<%= thread.id %>"><%= thread.name %></a>
+      <a style="vertical-align: middle;" href="/thread/<%= thread.id %>"><%= thread.name %></a>
       <br>
       <small><%= thread.title %></small>
     </td>
