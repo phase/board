@@ -1,4 +1,5 @@
 require "mysql"
+require "crypto/bcrypt"
 require "./style"
 require "./config"
 require "./templates"
@@ -271,13 +272,19 @@ class Board
     user
   end
 
-  def self.login(username : String, hash : String)
+  def self.login(username : String, password : String)
     id = -1
+    hash = "Invalid Hash"
     DB.open @@config.mysql_url do |db|
-      db.query "select id from users where name = ? and password = ?", username, hash do |rs|
+      db.query "select id, password from users where name = ?", username do |rs|
         rs.each do
-          id = rs.read(Int32)
-          puts "Found user #{id}"
+          t_id = rs.read(Int32)
+          t_hash = rs.read(String)
+          t_password = Crypto::Bcrypt::Password.new(t_hash)
+          if t_password == password
+            id = t_id
+            hash = t_hash
+          end
         end
       end
     end
@@ -290,7 +297,6 @@ class Board
     # TODO: Store Random because object creation is bad
     s = Random.new.next_u32.to_s
     @@sessions[s] = id
-    puts "storing #{s} in @@sessions as #{id}"
     return {s, User.new(id, username, hash)}
   end
 

@@ -1,5 +1,6 @@
 require "kemal"
 require "mysql"
+require "crypto/bcrypt"
 require "./board"
 require "./style"
 require "./config"
@@ -49,6 +50,17 @@ get "/login" do |env|
   BoardTemplate.new(stylesheet, LoginTemplate.new().to_s, user).to_s
 end
 
+get "/logout" do |env|
+  env.session["board_id"] = "-1"
+  env.redirect "/"
+end
+
+get "/register" do |env|
+  user = User.new(-1, "Invalid User", "Invalid Password")
+  Board.get_user_from_session
+  BoardTemplate.new(stylesheet, RegisterTemplate.new().to_s, user).to_s
+end
+
 post "/new/thread" do |env|
   # Get parameters for thread
   name = env.params.body["name"]
@@ -87,10 +99,17 @@ post "/login" do |env|
     # TODO: Error recovery
     env.redirect "/#error"
   else
-    puts "result[0] #{result[0]}"
     env.session["board_id"] = result[0]
     env.redirect "/"
   end
+end
+
+post "/register" do |env|
+  username = env.params.body["username"]
+  password = env.params.body["password"]
+  encrypted_password = Crypto::Bcrypt::Password.create(password, cost: 6).to_s
+  Board.create_user(username, encrypted_password)
+  env.redirect "/login"
 end
 
 # http://kemalcr.com/docs/middlewares/#csrf

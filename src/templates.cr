@@ -39,3 +39,7 @@ end
 class LoginTemplate
   ECR.def_to_s "templates/login.ecr"
 end
+
+class RegisterTemplate
+  ECR.def_to_s "templates/register.ecr"
+end
