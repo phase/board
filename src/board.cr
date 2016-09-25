@@ -48,13 +48,15 @@ class User
   getter name : String
   getter password : String # hash of password
   getter post_count : Int32
+  getter title : String
 
   def initialize(@id : Int32, @name : String, @password : String)
     @post_count = 0
+    @title = ""
   end
 
   def initialize(@id : Int32, @name : String, @password : String,
-                 @post_count : Int32)
+                 @post_count : Int32, @title : String)
   end
 
   def logged_in?()
@@ -168,12 +170,13 @@ class Board
   def self.get_user(user_id : Int32)
     user = User.new(-1, "Invalid User", "Invalid Hash")
     DB.open @@config.mysql_url do |db|
-      db.query "select name, password, posts from users where id = #{user_id}" do |rs|
+      db.query "select name, password, posts, title from users where id = #{user_id}" do |rs|
         rs.each do
           name = rs.read(String)
           password = rs.read(String)
           posts = rs.read(Int32)
-          user = User.new(user_id, name, password, posts)
+          title = rs.read(String)
+          user = User.new(user_id, name, password, posts, title)
         end
       end
     end

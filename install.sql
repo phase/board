@@ -14,7 +14,7 @@ CREATE TABLE `users` (
   `id` int(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
   `displayname` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(255) NOT NULL DEFAULT 'Nobody',
   `password` varchar(255) NOT NULL,
   `powerlevel` int(1) NOT NULL DEFAULT '0',
   `sex` int(1) NOT NULL DEFAULT '2',

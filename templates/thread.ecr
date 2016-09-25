@@ -6,8 +6,10 @@
   <%- @posts.each do |post| -%>
     <tr id="<%= post.id %>">
       <td class="user">
+        <!-- User Information -->
         <%- user = Board.get_user(post.poster_id) -%>
-        <p><a href="/profile/<%= user.id %>"><%= user.name %></a></p>
+        <p><a href="/profile/<%= user.id %>"><%= user.name %></a>
+          <br><small><%= user.title %></small></p>
         <small class="stats">
           <p>Posts: <%= user.post_count %></p>
         </small>
