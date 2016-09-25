@@ -1,6 +1,15 @@
 -- A lot of this isn't being used right now, and I'm sure if it ever will be.
 
 -- Create the tables
+
+CREATE TABLE `stats` (
+  -- Really ghetto
+  `id` tinyint(1) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `front_page_views` bigint(8) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `stats` (`front_page_views`) VALUES (0);
+
 CREATE TABLE `users` (
   `id` int(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,

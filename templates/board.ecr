@@ -8,11 +8,12 @@
     <h1><a href="/">Board</a></h1>
     <table>
       <tr>
-        <td><p>This is some board software written in Crystal.</p></td>
+        <td width="33%"><p>Views: <%= Board.get_page_views().to_s.reverse.gsub(/...(?=.)/,"\&,").reverse %></p></td>
+        <td align="center" width="33%"><p>This is some board software written in Crystal.</p></td>
         <%- if @user.logged_in? -%>
-          <td align="right">Logged in: <a href="/profile/<%= @user.id %>"><%= @user.name %></a> | <a href="/logout">Logout</a></td>
+          <td align="right" width="33%">Logged in: <a href="/profile/<%= @user.id %>"><%= @user.name %></a> | <a href="/logout">Logout</a></td>
         <%- else -%>
-          <td align="right"><a href="/login">Login</a> | <a href="/register">Register</a></td>
+          <td align="right" width="33%"><a href="/login">Login</a> | <a href="/register">Register</a></td>
         <%- end -%>
       </tr>
     </table>

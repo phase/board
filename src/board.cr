@@ -327,6 +327,30 @@ class Board
     return {s, User.new(id, username, hash)}
   end
 
+  def self.get_page_views()
+    views = 0
+    DB.open @@config.mysql_url do |db|
+      db.query "select front_page_views from stats where id = 1" do |rs|
+        rs.each do
+          views = rs.read(Int64)
+        end
+      end
+    end
+    return views
+  end
+
+  def self.increment_page_views()
+    DB.open @@config.mysql_url do |db|
+      views = 0
+      db.query "select front_page_views from stats where id = 1" do |rs|
+        rs.each do
+          views = rs.read(Int64)
+        end
+      end
+      db.exec "update stats set front_page_views = #{views + 1} where id = 1"
+    end
+  end
+
   macro get_user_from_session()
     if env.session["board_id"]?
       session_id = env.session["board_id"]

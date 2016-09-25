@@ -12,6 +12,7 @@ Board.config = Config.from_json(File.read("config.json"))
 
 # index page showing all forums
 get "/" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   forums = Board.get_forums
@@ -20,6 +21,7 @@ end
 
 # view threads in a forum
 get "/forum/:id" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   forum_id = env.params.url["id"].to_i rescue -1
@@ -29,6 +31,7 @@ end
 
 # view posts in a thread
 get "/thread/:id" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   thread_id = env.params.url["id"].to_i rescue -1
@@ -38,6 +41,7 @@ get "/thread/:id" do |env|
 end
 
 get "/new/thread/:forum_id" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   forum_id = env.params.url["forum_id"].to_i rescue -1
@@ -46,23 +50,27 @@ get "/new/thread/:forum_id" do |env|
 end
 
 get "/login" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   BoardTemplate.new(stylesheet, LoginTemplate.new().to_s, user).to_s
 end
 
 get "/logout" do |env|
+  Board.increment_page_views
   env.session["board_id"] = "-1"
   env.redirect "/"
 end
 
 get "/register" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   BoardTemplate.new(stylesheet, RegisterTemplate.new().to_s, user).to_s
 end
 
 get "/profile/:id" do |env|
+  Board.increment_page_views
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
   profile_id = env.params.url["id"].to_i rescue -1
