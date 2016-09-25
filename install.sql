@@ -1,37 +1,4 @@
-# board
-[![Build Status](https://travis-ci.org/phase/board.svg?branch=master)](https://travis-ci.org/phase/board)
-
-This is some board software written in Crystal. It was inspired by Acmlmboard
-and its derivatives.
-
-There is no name for it yet. `CryBoard` or `BoardCr` may be used.
-
-## Installing
-
-Create a `config.json` modeled after `example_config.json`.
-
-### MySQL
-
-Open your MySQL shell.
-
-```bash
-mysql -u root -p
-```
-
-Create the database and tables. You can use the provided SQL file or use the
-statements below.
-
-```bash
-mysql -e 'create database cryboard;' --verbose
-mysql cryboard --verbose < install.sql
-```
-
-or
-
-```sql
--- Create the database and select it
-create database cryboard;
-use cryboard;
+-- A lot of this isn't being used right now, and I'm sure if it ever will be.
 
 -- Create the tables
 CREATE TABLE `users` (
@@ -137,33 +104,3 @@ CREATE TABLE `forums` (
   `lastposttime` int(32) DEFAULT NULL,
   `pollstyle` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Test data
-INSERT INTO `forums` (`id`, `name`, `title`, `minpower`, `minpowerreply`, `minpowerthread`, `category`, `ord`) VALUES
-(1, 'General Forum', 'For everybody!', 0, 0, 0, 1, 1),
-(2, 'General Staff Forum', 'Not for everybody.', 2, 2, 2, 2, 2),
-(3, 'Garbage', 'The worst posts.', 0, 0, 0, 3, 99);
-
-INSERT INTO `threads` (`id`, `name`, `title`, `time`, `forum`, `user`) VALUES
-(1, 'Test Thread 1', 'Sub title thing', 0, 1, 1),
-(2, 'Test Thread 2', 'another sub title', 0, 1, 1);
-
-INSERT INTO `posts` (`text`, `time`, `thread`, `user`, `rev`) VALUES
-("Woah, this is pretty cool.", 123, 1, 1, 1),
-("Yeah, this is neato!", 124, 1, 1, 1),
-("Get your shit board out of here.", 125, 1, 2, 1);
-
-INSERT INTO `users` (`name`, `password`) VALUES
-("phase", "some_hash"),
-("StapleButter", "some_weak_hash");
-```
-
-## Uninstalling
-
-```sql
--- Delete a specific table
-drop table users;
-
--- Delete the database
-drop database cryboard;
-```

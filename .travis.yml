@@ -1,1 +1,9 @@
 language: crystal
+
+services:
+  - mysql
+
+before_script:
+  - mysql -e 'create database test_board;' --verbose
+  - mysql test_board --verbose < install.sql
+  - "echo \"{\\\"name\\\": \\\"test_board\\\", \\\"mysql_url\\\": \\\"mysql://root@127.0.0.1/test_board\\\"}\" >> config.json"
