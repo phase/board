@@ -50,3 +50,10 @@ class ProfileTemplate
 
   ECR.def_to_s "templates/profile.ecr"
 end
+
+class ErrorTemplate
+  def initialize(@error : String)
+  end
+
+  ECR.def_to_s "templates/error.ecr"
+end

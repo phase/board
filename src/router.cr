@@ -22,7 +22,7 @@ end
 get "/forum/:id" do |env|
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
-  forum_id = env.params.url["id"].to_i
+  forum_id = env.params.url["id"].to_i rescue -1
   threads = Board.get_threads(forum_id)
   BoardTemplate.new(stylesheet, ForumTemplate.new(user, forum_id, threads).to_s, user).to_s
 end
@@ -31,7 +31,7 @@ end
 get "/thread/:id" do |env|
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
-  thread_id = env.params.url["id"].to_i
+  thread_id = env.params.url["id"].to_i rescue -1
   Board.increment_view(thread_id)
   posts = Board.get_posts(thread_id)
   BoardTemplate.new(stylesheet, ThreadTemplate.new(user, thread_id, posts).to_s, user).to_s
@@ -40,7 +40,7 @@ end
 get "/new/thread/:forum_id" do |env|
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
-  forum_id = env.params.url["forum_id"].to_i
+  forum_id = env.params.url["forum_id"].to_i rescue -1
   forum = Board.get_forum(forum_id)
   BoardTemplate.new(stylesheet, NewThreadTemplate.new(user, forum).to_s, user).to_s
 end
@@ -65,7 +65,7 @@ end
 get "/profile/:id" do |env|
   user = User.new(-1, "Invalid User", "Invalid Password")
   Board.get_user_from_session
-  profile_id = env.params.url["id"].to_i
+  profile_id = env.params.url["id"].to_i rescue -1
   profile = Board.get_user(profile_id)
   BoardTemplate.new(stylesheet, ProfileTemplate.new(profile).to_s, user).to_s
 end
@@ -80,7 +80,7 @@ post "/new/thread" do |env|
   # Create the thread and get the id of it for redirection
   thread_id = Board.create_thread(name, title, forum_id, user_id).id
   if thread_id == -1
-    env.redirect "/"
+    BoardTemplate.new(stylesheet, ErrorTemplate.new("Couldn't create thread.").to_s, Board.get_user(user_id)).to_s
   else
     # Get parameter for first post
     post_text = env.params.body["text"].as(String)
