@@ -75,7 +75,18 @@ get "/profile/:id" do |env|
   Board.get_user_from_session
   profile_id = env.params.url["id"].to_i rescue -1
   profile = Board.get_user(profile_id)
-  BoardTemplate.new(stylesheet, ProfileTemplate.new(profile).to_s, user).to_s
+  BoardTemplate.new(stylesheet, ProfileTemplate.new(user, profile).to_s, user).to_s
+end
+
+get "/edit/profile" do |env|
+  Board.increment_page_views
+  user = User.new(-1, "Invalid User", "Invalid Password")
+  Board.get_user_from_session
+  if user.id == -1
+    env.redirect "/login"
+  else
+    BoardTemplate.new(stylesheet, EditProfileTemplate.new(user).to_s, user).to_s
+  end
 end
 
 post "/new/thread" do |env|
@@ -127,6 +138,18 @@ post "/register" do |env|
   encrypted_password = Crypto::Bcrypt::Password.create(password, cost: 6).to_s
   Board.create_user(username, encrypted_password)
   env.redirect "/login"
+end
+
+post "/edit/profile" do |env|
+  user_id = -1
+  Board.get_user_id_from_session
+  if user_id == -1
+    env.redirect "/login"
+  else
+    title = env.params.body["title"]
+    Board.update_user(user_id, title)
+    env.redirect "/profile/#{user_id}"
+  end
 end
 
 # http://kemalcr.com/docs/middlewares/#csrf

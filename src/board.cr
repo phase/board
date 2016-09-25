@@ -183,6 +183,12 @@ class Board
     user
   end
 
+  def self.update_user(user_id : Int32, title : String)
+    DB.open @@config.mysql_url do |db|
+      db.exec "update users set title = ? where id = #{user_id}", title
+    end
+  end
+
   def self.create_forum(name : String, title : String)
     forum = Forum.new(-1, "Invalid Forum", "Invalid Forum Title", -1, -1)
     DB.open @@config.mysql_url do |db|

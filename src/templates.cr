@@ -45,10 +45,17 @@ class RegisterTemplate
 end
 
 class ProfileTemplate
-  def initialize(@user : User)
+  def initialize(@user : User, @profile : User)
   end
 
   ECR.def_to_s "templates/profile.ecr"
+end
+
+class EditProfileTemplate
+  def initialize(@user : User)
+  end
+
+  ECR.def_to_s "templates/edit_profile.ecr"
 end
 
 class ErrorTemplate
