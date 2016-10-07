@@ -1,7 +1,13 @@
 <form action="/edit/profile" id="edit-profile" method="post">
-  <div class="reply">
-    <input type="text" name="title" value="<%= @user.title %>"><br>
-    <br>
+  <table class="prominent content">
+    <tr>
+      <td width="25%">Title:</td>
+      <td width="75%"><input size="40" type="text" name="title" value="<%= @user.title %>"></td>
+    </tr>
+  </table>
+  <br>
+  <center>
+    <!-- ghetto, but I don't care -->
     <input type="submit" value="Submit">
-  </div>
+  </center>
 </form>
