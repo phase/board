@@ -2,11 +2,15 @@ version: 1.0
 shards:
   db:
     github: crystal-lang/crystal-db
-    version: 0.1.0
+    version: 0.3.3
 
   kemal:
-    github: sdogruyol/kemal
-    commit: 94217a15647b83fe7b7e31db6d05fa121b2a5d86
+    github: kemalcr/kemal
+    commit: e6757d9a618126213f7a3985c11c1bb1796983d2
+
+  kemal-session:
+    github: kemalcr/kemal-session
+    commit: 5ae81a68c4514b40a7ea8bf42bffa0d007281be8
 
   kilt:
     github: jeromegn/kilt
@@ -14,9 +18,9 @@ shards:
 
   mysql:
     github: crystal-lang/crystal-mysql
-    version: 0.1.2
+    version: 0.3.1
 
   radix:
     github: luislavena/radix
-    version: 0.3.1
+    version: 0.3.7
 

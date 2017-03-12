@@ -1,4 +1,6 @@
 {
   "name": "board",
+  "session_secret": "session_secret",
   "mysql_url": "mysql://user:password@host/database"
 }
+

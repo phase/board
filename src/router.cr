@@ -1,4 +1,5 @@
 require "kemal"
+require "kemal-session"
 require "mysql"
 require "crypto/bcrypt"
 require "./board"
@@ -9,6 +10,8 @@ require "./templates"
 generate_stylesheet "base"
 stylesheet = File.read("style/base.css")
 Board.config = Config.from_json(File.read("config.json"))
+
+Session.config.secret = Board.config.session_secret
 
 # index page showing all forums
 get "/" do |env|
@@ -58,7 +61,7 @@ end
 
 get "/logout" do |env|
   Board.increment_page_views
-  env.session["board_id"] = "-1"
+  env.session.string("board_id", "-1")
   env.redirect "/"
 end
 
@@ -127,7 +130,7 @@ post "/login" do |env|
     # TODO: Error recovery
     env.redirect "/#error"
   else
-    env.session["board_id"] = result[0]
+    env.session.string("board_id", result[0])
     env.redirect "/"
   end
 end

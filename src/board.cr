@@ -331,7 +331,7 @@ class Board
     end
 
     # TODO: Store Random because object creation is bad
-    s = Random.new.next_u32.to_s
+    s = Random.new.next_u.to_s
     @@sessions[s] = id
     return {s, User.new(id, username, hash)}
   end
@@ -361,8 +361,8 @@ class Board
   end
 
   macro get_user_from_session()
-    if env.session["board_id"]?
-      session_id = env.session["board_id"]
+    if env.session.string?("board_id")
+      session_id = env.session.string?("board_id")
       if Board.sessions[session_id]?
         user_id = Board.sessions[session_id]
         user = Board.get_user(user_id)
@@ -371,8 +371,8 @@ class Board
   end
 
   macro get_user_id_from_session()
-    if env.session["board_id"]?
-      session_id = env.session["board_id"]
+    if env.session.string?("board_id")
+      session_id = env.session.string?("board_id")
       if Board.sessions[session_id]?
         user_id = Board.sessions[session_id]
       end
