@@ -160,7 +160,7 @@ class Board
       db.query "select id, text, time, user from posts where thread = #{thread_id}" do |rs|
         rs.each do
           post_id = rs.read(Int32)
-          text = String.new(rs.read(Slice(UInt8)))
+          text = rs.read(String)
           time = rs.read(Int32)
           poster_id = rs.read(Int32)
           posts << ForumPost.new(post_id, text, time, thread_id, poster_id)
