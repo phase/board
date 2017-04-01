@@ -29,7 +29,7 @@
     <!-- Hidden input for thread id -->
     <input type="number" style="display: none;" name="thread" value="<%= @thread_id %>">
 
-    <textarea name="text" form="new-post">Reply #<%=thread.replies + 1 %></textarea>
+    <textarea class="reply" name="text" form="new-post" placeholder="Reply #<%=thread.replies + 1 %>"></textarea>
     <br>
     <input type="submit" value="Submit">
   </div>
