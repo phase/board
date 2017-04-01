@@ -65,7 +65,10 @@ class User
 end
 
 class Board
-  @@config = Config.from_json(%({"name":"default_name", "mysql_url": "default_url"}))
+  @@config = Config.from_json(%({"name": "default_name",
+                                 "session_secret": "default_secret",
+                                 "mysql_url": "default_url"}))
+
   @@sessions = {} of String => Int32 # Session keys to User IDs
 
   def self.config
