@@ -7,7 +7,7 @@ rand = Random.new
 
 describe "Board" do
   it "creates users" do
-    username = rand.next_u32.to_s
+    username = rand.next_u.to_s
     password = Crypto::Bcrypt::Password.create("cat", cost: 6).to_s
     user = Board.create_user(username, password)
     user.id.should_not eq(-1)
