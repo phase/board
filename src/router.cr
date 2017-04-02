@@ -94,11 +94,16 @@ end
 
 post "/new/thread" do |env|
   # Get parameters for thread
-  name = env.params.body["name"]
-  title = env.params.body["title"]
-  forum_id = env.params.body["forum"].to_i32
+  _name = env.params.body["name"]
+  name = _name.is_a?(String) ? _name : _name[0]
+  _title = env.params.body["title"]
+  title = _title.is_a?(String) ? _title : _title[0]
+  _forum_id = env.params.body["forum"]
+  forum_id = (_forum_id.is_a?(String) ? _forum_id : _forum_id[0]).to_i32
+
   user_id = -1
   Board.get_user_id_from_session
+
   # Create the thread and get the id of it for redirection
   thread_id = Board.create_thread(name, title, forum_id, user_id).id
   if thread_id == -1
@@ -113,8 +118,11 @@ end
 
 post "/new/post" do |env|
   # Get parameters for post
-  text = env.params.body["text"]
-  thread_id = env.params.body["thread"].to_i32
+  _text = env.params.body["text"]
+  text = _text.is_a?(String) ? _text : _text[0]
+  _thread_id = env.params.body["thread"]
+  thread_id = (_thread_id.is_a?(String) ? _thread_id : _thread_id[0]).to_i32
+
   user_id = -1
   Board.get_user_id_from_session
   # Create post and redirect to the thread its on
@@ -123,8 +131,11 @@ post "/new/post" do |env|
 end
 
 post "/login" do |env|
-  username = env.params.body["username"]
-  password = env.params.body["password"]
+  _username = env.params.body["username"]
+  username = _username.is_a?(String) ? _username : _username[0]
+  _password = env.params.body["password"]
+  password = _password.is_a?(String) ? _password : _password[0]
+
   result = Board.login(username, password)
   if result[0] == "-1"
     # TODO: Error recovery
@@ -136,8 +147,11 @@ post "/login" do |env|
 end
 
 post "/register" do |env|
-  username = env.params.body["username"]
-  password = env.params.body["password"]
+   _username = env.params.body["username"]
+  username = _username.is_a?(String) ? _username : _username[0]
+  _password = env.params.body["password"]
+  password = _password.is_a?(String) ? _password : _password[0]
+
   encrypted_password = Crypto::Bcrypt::Password.create(password, cost: 6).to_s
   Board.create_user(username, encrypted_password)
   env.redirect "/login"
@@ -149,7 +163,9 @@ post "/edit/profile" do |env|
   if user_id == -1
     env.redirect "/login"
   else
-    title = env.params.body["title"]
+    _title = env.params.body["title"]
+    title = _title.is_a?(String) ? _title : _title[0]
+
     Board.update_user(user_id, title)
     env.redirect "/profile/#{user_id}"
   end
